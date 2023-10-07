@@ -161,10 +161,25 @@ function get_calc(btn) {
     if (btn.value === "0" && (calculation === '' || calculation === '0')) {
       return;
     }
-  // 先頭の00を無視する
+    // 先頭の00を無視する
     if (btn.value === "00" && (calculation === '' || calculation === '00')) {
       return;
     }
+      // エラーが表示されている場合はボタン入力を無効にする
+    if (display.value === 'Error') {
+      return;
+    }
+  
+    // 小数点がすでに入力されている場合、新たな小数点の入力を無効にする
+    if (btn.value === '.' && display.value.includes('.')) {
+      return;
+    }
+  
+  // 入力されたボタンが演算子で、前回の入力も演算子の場合、新しい演算子を無視する
+    if (isOperator(btn.value) && isOperator(calculation.slice(-1))) {
+      return;
+    }
+
     // 前回の入力が演算子で、今回の入力も演算子の場合、新しい演算子を無視する
     if (isOperator(calculation.slice(-1)) && isOperator(btn.value)) {
       return;
